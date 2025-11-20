@@ -1,4 +1,4 @@
-# Heart Disease Analytics Dashboard (Resume-ready)
+# Heart Disease Analytics 
 
 An end-to-end Healthcare Analytics project that ingests UCI heart disease data, performs preprocessing and feature engineering, trains a reproducible scikit-learn pipeline, and exposes an interactive Streamlit dashboard for EDA and patient-level risk prediction with human-friendly insights.
 
