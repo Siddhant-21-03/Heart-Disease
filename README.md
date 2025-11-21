@@ -39,12 +39,6 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-2. (Optional) Re-train the model on the processed CSV and save artifact
-
-```powershell
-$env:PYTHONPATH='.'; python src/models/train_model.py --input data/processed/heart_disease_processed.csv --output models
-```
-
 3. Run tests and smoke-check
 
 ```powershell
@@ -58,21 +52,3 @@ $env:PYTHONPATH='.'; python scripts/smoke_predict.py
 $env:PYTHONPATH='.'; .\.venv\Scripts\Activate.ps1
 streamlit run src/app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
 ```
-
-Open `http://localhost:8501` in your browser.
-
-Suggested resume bullet (short)
-> Built an end-to-end heart disease prediction dashboard using Python, scikit-learn, and Streamlit: developed data preprocessing, trained a Random Forest pipeline (saved with joblib), and deployed an interactive web app offering EDA, patient-level prediction, and human-readable risk insights—achieved ~85% validation accuracy on UCI Heart Disease dataset.
-
-Next steps to further polish
-- Add SHAP explanations and feature-importance visualizations in-app
-- Add CI (GitHub Actions) to run tests and linting on push
-- Add more unit tests for preprocessing and the insights module
-
-If you'd like, I can also add:
-- a short demo GIF in `docs/` or `README.md`
-- a `CONTRIBUTING.md` and `LICENSE`
-- a GitHub Actions workflow that runs `pytest` on push
-
----
-Feel free to ask me to add the demo GIF, a concise `RESUME_BULLET.txt`, or a CI workflow next.
