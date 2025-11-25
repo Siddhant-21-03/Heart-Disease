@@ -6,6 +6,9 @@ __pycache__/
 models/
 !src/
 !src/**
+# Ignore processed data but allow raw data
 data/processed/
+!data/raw/
+!data/raw/**
 *.joblib
 .DS_Store
