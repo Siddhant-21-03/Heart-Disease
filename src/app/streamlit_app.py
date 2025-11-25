@@ -13,13 +13,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-# Also add the src directory to path for Streamlit Cloud compatibility
-SRC_DIR = Path(__file__).resolve().parent.parent
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
-
-from visualization.eda_plots import histogram, correlation_heatmap, scatter
-from models.predict import predict_from_dict, load_model
+# Import using absolute paths from src package
+from src.visualization.eda_plots import histogram, correlation_heatmap, scatter
+from src.models.predict import predict_from_dict, load_model
 
 
 TARGET = 'target'
