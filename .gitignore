@@ -3,6 +3,8 @@ __pycache__/
 .env
 .venv/
 models/
+!src/models/
+!src/models/**
 data/processed/
 *.joblib
 .DS_Store
