@@ -2,9 +2,10 @@ __pycache__/
 *.pyc
 .env
 .venv/
+# Ignore trained models directory but not source code
 models/
-!src/models/
-!src/models/**
+!src/
+!src/**
 data/processed/
 *.joblib
 .DS_Store
