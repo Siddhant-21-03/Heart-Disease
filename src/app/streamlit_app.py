@@ -6,15 +6,20 @@ import sys
 from pathlib import Path
 import shap
 import matplotlib.pyplot as plt
+from collections import OrderedDict
 
 # Ensure project root is on path so src imports work when running streamlit from repo root
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
-    sys.path.append(str(PROJECT_ROOT))
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.visualization.eda_plots import histogram, correlation_heatmap, scatter
-from src.models.predict import predict_from_dict, load_model
-from collections import OrderedDict
+# Also add the src directory to path for Streamlit Cloud compatibility
+SRC_DIR = Path(__file__).resolve().parent.parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from visualization.eda_plots import histogram, correlation_heatmap, scatter
+from models.predict import predict_from_dict, load_model
 
 
 TARGET = 'target'
