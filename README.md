@@ -1,54 +1,200 @@
-# Heart Disease Analytics 
+# Heart Disease Analytics Dashboard
 
-An end-to-end Healthcare Analytics project that ingests UCI heart disease data, performs preprocessing and feature engineering, trains a reproducible scikit-learn pipeline, and exposes an interactive Streamlit dashboard for EDA and patient-level risk prediction with human-friendly insights.
+A production-ready healthcare analytics application featuring machine learning predictions, explainable AI, and comprehensive data visualizations for heart disease risk assessment.
 
-Why this is resume-worthy
-- Demonstrates full ML lifecycle: data cleaning -> feature engineering -> model training -> deployment-ready app
-- Shows product thinking: human-readable insights, empty-by-default input UX, and fallback logic for robust inference
-- Contains reproducible code, a persisted model artifact, unit tests, and Docker support for easy sharing
+## Project Overview
 
-Highlights
-- Trained a Random Forest pipeline with preprocessing (imputation, scaling, one-hot encoding) and saved as `models/rf_pipeline.joblib`.
-- Streamlit app (`src/app/streamlit_app.py`) provides EDA charts, an 8-field patient input form, automatic fallback filling for model-required features, and a personalized insights summary instead of raw model metrics.
-- Includes `scripts/smoke_predict.py` and `tests/test_predict.py` for quick verification.
+This project implements a complete ML pipeline for heart disease prediction using the UCI Heart Disease dataset. It includes data preprocessing, model training with scikit-learn, and an interactive web dashboard built with Streamlit that provides:
 
-Technologies
-- Python, pandas, numpy
-- scikit-learn (Pipeline, ColumnTransformer, RandomForest)
-- joblib for model persistence
-- Streamlit, Plotly, Seaborn for UI and visualizations
-- pytest for testing, Docker for containerization
+- **Batch Predictions**: Upload patient data and get instant predictions for multiple patients
+- **Explainable AI**: SHAP (SHapley Additive exPlanations) values for model interpretability
+- **Interactive Visualizations**: EDA charts, group comparisons, and patient-level analysis
+- **Robust Data Handling**: Automatic feature imputation and multiple file format support
 
-Repository layout (most relevant files)
-- `src/app/streamlit_app.py` — Streamlit dashboard and prediction UI
-- `src/models/train_model.py` — training script & pipeline builder
-- `src/models/predict.py` — model loader and prediction helper
-- `data/processed/heart_disease_processed.csv` — canonical processed dataset used for fallbacks and insights
-- `models/rf_pipeline.joblib` — trained model artifact (if present)
-- `scripts/smoke_predict.py` — quick verification script
-- `tests/` — minimal unit tests
+## Key Features
 
-Quickstart (Windows PowerShell)
+### Machine Learning Pipeline
+- **Random Forest Classifier** with 150 estimators achieving ~85% accuracy
+- **Preprocessing Pipeline**: Automated feature scaling, imputation, and one-hot encoding
+- **Cross-validated Training**: Stratified train-test split with reproducible random state
+- **Feature Engineering**: Comprehensive handling of numeric and categorical features
 
-1. Create a virtual environment and install dependencies
+### Dashboard Capabilities
+- **Exploratory Data Analysis**: Histograms, scatter plots, correlation heatmaps, box plots, violin plots
+- **Batch Prediction**: Process CSV files with automatic missing value handling
+- **SHAP Explanations**: Individual patient feature contribution analysis with waterfall plots
+- **Group Analytics**: Compare predicted positive vs negative cohorts with statistical insights
+- **Export Functionality**: Download predictions and analysis results
 
-```powershell
-cd D:/DApro/heart_disease_dashboard
+### Code Quality
+- Unit tests with pytest
+- CI/CD pipeline with GitHub Actions
+- Modular architecture with clear separation of concerns
+- Type hints and comprehensive error handling
+
+## Technology Stack
+
+**Core:**
+- Python 3.10+
+- pandas, numpy
+- scikit-learn (Pipeline, ColumnTransformer, RandomForestClassifier)
+
+**Visualization:**
+- Streamlit
+- Plotly Express
+- Seaborn, Matplotlib
+
+**Explainability:**
+- SHAP for model interpretability
+
+**Testing & DevOps:**
+- pytest
+- GitHub Actions
+- Docker support
+
+## Project Structure
+
+```
+heart_disease_dashboard/
+├── src/
+│   ├── app/
+│   │   └── streamlit_app.py          # Main dashboard application
+│   ├── models/
+│   │   ├── train_model.py            # Model training pipeline
+│   │   └── predict.py                # Prediction utilities
+│   ├── data/
+│   │   └── preprocess.py             # Data cleaning functions
+│   └── visualization/
+│       └── eda_plots.py              # Chart generation utilities
+├── data/
+│   ├── raw/                          # Original dataset
+│   ├── processed/                    # Cleaned dataset
+│   └── sample_input.csv              # Example input file
+├── models/
+│   ├── rf_pipeline.joblib            # Trained model artifact
+│   ├── metrics.json                  # Model performance metrics
+│   └── feature_importances.csv       # Feature importance scores
+├── tests/                            # Unit tests
+├── scripts/                          # Helper scripts
+└── .github/workflows/                # CI/CD configuration
+```
+
+## Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+- pip package manager
+- Git
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Siddhant-21-03/Heart-Disease.git
+cd Heart-Disease
+```
+
+2. **Set up virtual environment**
+```bash
 python -m venv .venv
+
+# Windows PowerShell
 .\.venv\Scripts\Activate.ps1
+
+# Linux/Mac
+source .venv/bin/activate
+```
+
+3. **Install dependencies**
+```bash
 pip install -r requirements.txt
 ```
 
-3. Run tests and smoke-check
+### Training the Model
 
-```powershell
-$env:PYTHONPATH='.'; pytest -q
-$env:PYTHONPATH='.'; python scripts/smoke_predict.py
+Train a new model with custom parameters:
+
+```bash
+# Windows
+python src\models\train_model.py --input data\raw\heart_disease_uci.csv --output models --n-estimators 150
+
+# Linux/Mac
+python src/models/train_model.py --input data/raw/heart_disease_uci.csv --output models --n-estimators 150
 ```
 
-4. Start the Streamlit app
+Or use the provided training scripts:
+```bash
+# Windows
+scripts\train.bat
 
-```powershell
-$env:PYTHONPATH='.'; .\.venv\Scripts\Activate.ps1
-streamlit run src/app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+# Linux/Mac
+bash scripts/train.sh
 ```
+
+### Running the Dashboard
+
+```bash
+streamlit run src/app/streamlit_app.py
+```
+
+The dashboard will open at `http://localhost:8501`
+
+### Running Tests
+
+```bash
+pytest
+```
+
+## Usage Guide
+
+### 1. Upload Data
+- Navigate to the **Upload** tab
+- Upload a CSV file with patient data
+- View automatic batch predictions and group insights
+
+### 2. Explore Data
+- Use the **EDA** tab for data visualization
+- Compare predicted positive vs negative groups
+- Generate histograms, box plots, and correlation heatmaps
+
+### 3. Model Insights
+- View **SHAP explanations** for individual patients
+- Understand feature contributions with waterfall plots
+- Analyze which features drive predictions
+
+### 4. Single Prediction
+- Enter patient information in the **Predict** tab
+- Get instant risk assessment
+- View personalized insights
+
+## Model Performance
+
+- **Accuracy**: ~85%
+- **Algorithm**: Random Forest (150 trees)
+- **Validation**: Stratified 80/20 train-test split
+- **Features**: 13 clinical features including age, sex, chest pain type, cholesterol, etc.
+
+## Dataset
+
+The project uses the UCI Heart Disease dataset containing 303 patient records with 14 attributes. The target variable indicates the presence of heart disease (binary classification).
+
+**Key Features:**
+- Age, Sex, Chest Pain Type
+- Resting Blood Pressure, Cholesterol
+- Fasting Blood Sugar, ECG Results
+- Maximum Heart Rate, Exercise Angina
+- ST Depression, Slope, Vessels, Thalassemia
+
+## Contributing
+
+This is a portfolio project, but suggestions and feedback are welcome through GitHub issues.
+
+## License
+
+This project is for educational and portfolio purposes.
+
+## Acknowledgments
+
+- UCI Machine Learning Repository for the Heart Disease dataset
+- SHAP library for explainability features
+- Streamlit for the interactive dashboard framework
