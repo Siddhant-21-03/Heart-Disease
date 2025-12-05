@@ -70,39 +70,40 @@ try:
     model = load_model()  # default path
     model_status = 'Loaded'
 except FileNotFoundError:
-    # Model doesn't exist - show option to train it
-    model_status = 'Not found - needs training'
-    st.warning('Model not found. The model needs to be trained before making predictions.')
-    
-    if st.button('Train Model Now'):
-        with st.spinner('Training model... This may take a minute.'):
-            try:
-                # Import and run training
-                from src.models.train_model import train
-                
-                # Check if raw data exists
-                raw_data_path = PROJECT_ROOT / 'data' / 'raw' / 'heart_disease_uci.csv'
-                if not raw_data_path.exists():
-                    st.error(f'Training data not found at {raw_data_path}. Please upload the dataset.')
-                else:
-                    # Train the model
-                    output_dir = PROJECT_ROOT / 'models'
-                    output_dir.mkdir(parents=True, exist_ok=True)
-                    
-                    metrics = train(
-                        input_csv=str(raw_data_path),
-                        output_dir=str(output_dir),
-                        test_size=0.2,
-                        random_state=42,
-                        n_estimators=150
-                    )
-                    
-                    st.success(f'Model trained successfully! Accuracy: {metrics.get("accuracy", "N/A"):.3f}')
-                    st.info('Please refresh the page to load the trained model.')
-                    
-            except Exception as e:
-                st.error(f'Training failed: {e}')
-                st.exception(e)
+    # Model doesn't exist - train it automatically
+    model_status = 'Training...'
+    try:
+        # Import and run training
+        from src.models.train_model import train
+        
+        # Check if raw data exists
+        raw_data_path = PROJECT_ROOT / 'data' / 'raw' / 'heart_disease_uci.csv'
+        if not raw_data_path.exists():
+            model_status = 'Error: Training data not found'
+            st.error(f'Training data not found at {raw_data_path}.')
+        else:
+            # Train the model
+            output_dir = PROJECT_ROOT / 'models'
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            with st.spinner('Pre-training model... This may take a minute.'):
+                metrics = train(
+                    input_csv=str(raw_data_path),
+                    output_dir=str(output_dir),
+                    test_size=0.2,
+                    random_state=42,
+                    n_estimators=150
+                )
+            
+            # Load the trained model
+            model = load_model()
+            model_status = 'Loaded'
+            st.success(f'Model pre-trained successfully! Accuracy: {metrics.get("accuracy", "N/A"):.3f}')
+            
+    except Exception as e:
+        model = None
+        model_status = f'Error: {str(e)[:100]}'
+        st.error(f'Model training failed: {e}')
 except Exception as e:
     model = None
     model_status = f'Error: {str(e)[:100]}'
